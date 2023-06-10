@@ -34,6 +34,33 @@ async function run() {
         const instructorsCollection = client.db("sportDb").collection('instructors')
         // Carts Collection
         const cartsCollection = client.db("sportDb").collection('carts')
+        // Users Collection
+        const usersCollection = client.db("sportDb").collection('users')
+
+
+        // Users APIs
+
+        app.get('/users', async (req, res) => {
+            const result = await usersCollection.find().toArray();
+            res.send(result);
+        })
+
+        
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log(user);
+
+            // For Google User Check, If they're login is first attempt or second
+            const query = { email: user.email }
+            const existingUser = await usersCollection.findOne(query);
+            if (existingUser) {
+                return res.send({ message: 'User Already Exist' })
+            }
+            // For Google User Check, If they're login is first attempt or second
+
+            const result = await usersCollection.insertOne(user);
+            res.send(result);
+        })
 
 
         // Show All Classes Data in UI
