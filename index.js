@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const jwt = require('jsonwebtoken');
-require('dotenv').config()
+require('dotenv').config();
 const port = process.env.PORT || 5000;
 
 // middleware
@@ -47,12 +47,12 @@ async function run() {
 
         // Classes Collection
         const classesCollection = client.db("sportDb").collection('classes')
-        // // Instructors Collection
-        // const instructorsCollection = client.db("sportDb").collection('instructors')
         // Carts Collection
         const cartsCollection = client.db("sportDb").collection('carts')
         // Users Collection
         const usersCollection = client.db("sportDb").collection('users')
+        // Payment Collection
+        // const paymentCollection = client.db("sportDb").collection('payment')
 
         // JWT
         app.post('/jwt', (req, res) => {
@@ -141,8 +141,6 @@ async function run() {
 
 
 
-
-
         // Show All Classes Data in UI ===========================================
         app.get('/classes', async (req, res) => {
             const result = await classesCollection.find().toArray();
@@ -183,37 +181,6 @@ async function run() {
 
 
 
-        // Set Class Status: Denied
-        // app.patch('/classes/denied/:id', async (req, res) => {
-        //     const id = req.params.id
-        //     console.log(id);
-        //     const filter = { _id: new ObjectId(id) }
-        //     const updateDoc = {
-        //         $set: {
-        //             status: 'denied'
-        //         }
-        //     }
-        //     const result = await classesCollection.updateOne(filter, updateDoc);
-        //     res.send(result);
-        // })
-
-        // Set Class Status: Approve
-        // app.patch('/classes/approved/:id', async (req, res) => {
-        //     const id = req.params.id
-        //     console.log(id);
-        //     const filter = { _id: new ObjectId(id) }
-        //     const updateDoc = {
-        //         $set: {
-        //             status: 'approved'
-        //         }
-        //     }
-        //     const result = await classesCollection.updateOne(filter, updateDoc);
-        //     res.send(result);
-        // })
-
-
-
-
 
         // Cart Collection =======================================================
         app.get('/carts', verifyJWT, async (req, res) => {
@@ -244,14 +211,6 @@ async function run() {
             console.log(result);
             res.send(result);
         })
-
-
-
-
-
-
-
-
 
 
 
