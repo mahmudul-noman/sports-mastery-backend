@@ -148,6 +148,13 @@ async function run() {
             res.send(result);
         })
 
+        app.post('/classes', verifyJWT, async (req, res) => {
+            const newItem = req.body;
+            const result = await classesCollection.insertOne(newItem);
+            res.send(result);
+        })
+
+
         // Show All Instructors Data in UI
         app.get('/instructors', async (req, res) => {
             const result = await instructorsCollection.find().toArray();
