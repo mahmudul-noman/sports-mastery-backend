@@ -62,7 +62,7 @@ async function run() {
         })
 
 
-        // Users APIs
+        // Users APIs ============================================================
         app.get('/users', async (req, res) => {
             const result = await usersCollection.find().toArray();
             res.send(result);
@@ -111,6 +111,7 @@ async function run() {
         })
 
 
+        // Set Role: Admin
         app.patch('/users/admin/:id', async (req, res) => {
             const id = req.params.id
             console.log(id);
@@ -124,7 +125,7 @@ async function run() {
             res.send(result);
         })
 
-
+        // Set Role: Instructor
         app.patch('/users/instructor/:id', async (req, res) => {
             const id = req.params.id
             console.log(id);
@@ -142,7 +143,7 @@ async function run() {
 
 
 
-        // Show All Classes Data in UI
+        // Show All Classes Data in UI ===========================================
         app.get('/classes', async (req, res) => {
             const result = await classesCollection.find().toArray();
             res.send(result);
@@ -153,7 +154,7 @@ async function run() {
             res.send(result);
         });
 
-
+        // Add a Class
         app.post('/classes', verifyJWT, async (req, res) => {
             const newItem = req.body;
             const result = await classesCollection.insertOne(newItem);
@@ -161,13 +162,60 @@ async function run() {
         })
 
 
-        // Show All Instructors Data in UI
-        // app.get('/instructors', async (req, res) => {
-        //     const result = await instructorsCollection.find().toArray();
+
+
+        // Update Class Status: Approve || Denied
+        app.patch('/classes/:id/status', async (req, res) => {
+            const id = req.params.id;
+            const { status } = req.body;
+            console.log(id, status);
+
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    status: status
+                }
+            };
+
+            const result = await classesCollection.updateOne(filter, updateDoc);
+            res.send(result);
+        });
+
+
+
+        // Set Class Status: Denied
+        // app.patch('/classes/denied/:id', async (req, res) => {
+        //     const id = req.params.id
+        //     console.log(id);
+        //     const filter = { _id: new ObjectId(id) }
+        //     const updateDoc = {
+        //         $set: {
+        //             status: 'denied'
+        //         }
+        //     }
+        //     const result = await classesCollection.updateOne(filter, updateDoc);
         //     res.send(result);
         // })
 
-        // Cart Collection
+        // Set Class Status: Approve
+        // app.patch('/classes/approved/:id', async (req, res) => {
+        //     const id = req.params.id
+        //     console.log(id);
+        //     const filter = { _id: new ObjectId(id) }
+        //     const updateDoc = {
+        //         $set: {
+        //             status: 'approved'
+        //         }
+        //     }
+        //     const result = await classesCollection.updateOne(filter, updateDoc);
+        //     res.send(result);
+        // })
+
+
+
+
+
+        // Cart Collection =======================================================
         app.get('/carts', verifyJWT, async (req, res) => {
             const email = req.query.email;
             if (!email) {
