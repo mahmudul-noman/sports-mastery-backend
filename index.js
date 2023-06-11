@@ -47,8 +47,8 @@ async function run() {
 
         // Classes Collection
         const classesCollection = client.db("sportDb").collection('classes')
-        // Instructors Collection
-        const instructorsCollection = client.db("sportDb").collection('instructors')
+        // // Instructors Collection
+        // const instructorsCollection = client.db("sportDb").collection('instructors')
         // Carts Collection
         const cartsCollection = client.db("sportDb").collection('carts')
         // Users Collection
@@ -148,6 +148,12 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/insMyClass/:email', async (req, res) => {
+            const result = await classesCollection.find({ instructorEmail: req.params.email }).toArray();
+            res.send(result);
+        });
+
+
         app.post('/classes', verifyJWT, async (req, res) => {
             const newItem = req.body;
             const result = await classesCollection.insertOne(newItem);
@@ -156,10 +162,10 @@ async function run() {
 
 
         // Show All Instructors Data in UI
-        app.get('/instructors', async (req, res) => {
-            const result = await instructorsCollection.find().toArray();
-            res.send(result);
-        })
+        // app.get('/instructors', async (req, res) => {
+        //     const result = await instructorsCollection.find().toArray();
+        //     res.send(result);
+        // })
 
         // Cart Collection
         app.get('/carts', verifyJWT, async (req, res) => {
