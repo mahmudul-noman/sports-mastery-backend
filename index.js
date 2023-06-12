@@ -141,6 +141,30 @@ async function run() {
 
 
 
+        // ================================================== Not Work
+        // app.get('/classes/:id', async (req, res) => {
+        //     const result = await classesCollection.find().toArray();
+        //     res.send(result);
+        // })
+
+
+
+        // // Add this route after the existing routes
+        // app.patch('/classes/feedback/:id', async (req, res) => {
+        //     const classId = req.params.id;
+        //     const { feedback } = req.body;
+
+        //     // Update the 'classesCollection' to include a 'feedback' field
+        //     const filter = { _id: new ObjectId(classId) };
+        //     const updateDoc = { $set: { feedback } };
+
+        //     const result = await classesCollection.updateOne(filter, updateDoc);
+        //     res.send(result);
+        // });
+        // ================================================== Not Work
+
+
+
         // Show All Classes Data in UI ===========================================
         app.get('/classes', async (req, res) => {
             const result = await classesCollection.find().toArray();
@@ -160,8 +184,6 @@ async function run() {
         })
 
 
-
-
         // Update Class Status: Approve || Denied
         app.patch('/classes/:id/status', async (req, res) => {
             const id = req.params.id;
@@ -178,7 +200,6 @@ async function run() {
             const result = await classesCollection.updateOne(filter, updateDoc);
             res.send(result);
         });
-
 
 
 
