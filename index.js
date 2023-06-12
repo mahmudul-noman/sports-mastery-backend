@@ -27,7 +27,6 @@ const verifyJWT = (req, res, next) => {
 
 
 // ---------------------------------------------------- //
-
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.uvmqfi7.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -94,6 +93,7 @@ async function run() {
             const result = { instructor: user?.role === 'instructor' }
             res.send(result);
         })
+
 
 
 
@@ -217,12 +217,14 @@ async function run() {
             res.send(result);
         })
 
+        // Data Added to Cart by insertOne
         app.post('/carts', async (req, res) => {
             const item = req.body;
             const result = await cartsCollection.insertOne(item);
             res.send(result);
         })
 
+        // Data Delete from card by deleteOne
         app.delete('/carts/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
